@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Editare profil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #e5ddd5;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 500px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    label {
+      font-weight: bold;
+    }
+    #message {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Editare profil</h3>
+    <form id="profileForm">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nume</label>
+        <input type="text" class="form-control" id="name" placeholder="Nume" />
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Email" />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Parolă (lasă necompletat dacă nu vrei să schimbi)</label>
+        <input type="password" class="form-control" id="password" placeholder="Parolă nouă" />
+      </div>
+      <div class="mb-3">
+        <label for="bgColor" class="form-label">Culoare fundal</label>
+        <input type="color" class="form-control form-control-color" id="bgColor" />
+      </div>
+      <div class="mb-3">
+        <label for="font" class="form-label">Font</label>
+        <select class="form-select" id="font">
+          <option value="Arial">Arial</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="fontSize" class="form-label">Mărime text (px)</label>
+        <input type="number" class="form-control" id="fontSize" min="10" max="40" />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Salvează</button>
+      <a href="home.html" class="btn btn-secondary ms-2">Anulează</a>
+
+      <p id="message"></p>
+    </form>
+  </div>
+
+  <script>
+    // Încarcă datele curente din localStorage
+    window.addEventListener('DOMContentLoaded', () => {
+      const profile = JSON.parse(localStorage.getItem('profile')) || {};
+      if (profile.name) document.getElementById('name').value = profile.name;
+      if (profile.email) document.getElementById('email').value = profile.email;
+      if (profile.bgColor) document.getElementById('bgColor').value = profile.bgColor;
+      if (profile.font) document.getElementById('font').value = profile.font;
+      if (profile.fontSize) document.getElementById('fontSize').value = profile.fontSize;
+    });
+
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const messageEl = document.getElementById('message');
+      messageEl.textContent = '';
+      messageEl.style.color = 'red';
+
+      const inputName = document.getElementById('name').value.trim();
+      const inputEmail = document.getElementById('email').value.trim();
+      const inputPassword = document.getElementById('password').value.trim();
+      const inputBgColor = document.getElementById('bgColor').value;
+      const inputFont = document.getElementById('font').value;
+      const inputFontSize = document.getElementById('fontSize').value;
+
+      // Dacă email este completat, verifică formatul (simplu)
+      if (inputEmail && !inputEmail.includes('@')) {
+        messageEl.textContent = 'Te rog introdu un email valid.';
+        return;
+      }
+
+      const oldProfile = JSON.parse(localStorage.getItem('profile')) || {};
+
+      // Parola NU trebuie să aibă minim 6 caractere, poate fi oricât sau goală (dacă nu o schimbi)
+      // Dacă nu e completată, păstrăm parola veche
+      const newProfile = {
+        name: inputName || oldProfile.name || '',
+        email: inputEmail || oldProfile.email || '',
+        password: inputPassword || oldProfile.password || '',
+        bgColor: inputBgColor || oldProfile.bgColor || '#ffffff',
+        font: inputFont || oldProfile.font || 'Arial',
+        fontSize: inputFontSize || oldProfile.fontSize || '16',
+      };
+
+      localStorage.setItem('profile', JSON.stringify(newProfile));
+
+      messageEl.style.color = 'green';
+      messageEl.textContent = 'Profil actualizat cu succes!';
+
+      setTimeout(() => {
+        window.location.href = 'home.html';
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

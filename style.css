@@ -1,0 +1,63 @@
+/* 
+.login-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+}
+
+.container{
+    height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+} 
+*/
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrează pe orizontală conținutul */
+  width: 300px; /* Setează o lățime fixă pentru a controla cât de îngust este */
+  margin: 50px auto; /* Centrează întregul container pe pagină */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-box h3 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: Rockwell,Courier Bold,Courier,Georgia,Times,Times New Roman,serif;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+  width: 80%; /* Face câmpurile de input mai înguste decât containerul */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box; /* Include padding și border în lățimea elementului */
+}
+
+.login-box button {
+  width: 80%; /* Face butoanele la fel de late ca și câmpurile de input */
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  background-color: #007bff; /* Folosește culoarea primară Bootstrap */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: #0056b3;
+}
+
+.login-box p#message {
+  margin-top: 10px;
+  text-align: center;
+}

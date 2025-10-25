@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #e5ddd5;
+    }
+
+    .sidebar {
+      height: 100vh;
+      background-color: #f0f0f0;
+      border-right: 1px solid #ddd;
+      overflow-y: auto;
+    }
+
+    .chat-header,
+    .chat-footer {
+      background-color: #249420;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .chat-footer {
+      border-top: 1px solid #ccc;
+      border-bottom: none;
+    }
+
+    .chat-body {
+      height: calc(100vh - 150px);
+      overflow-y: auto;
+      background-size: cover;
+    }
+
+    .contact {
+      padding: 10px;
+      border-bottom: 1px solid #3bcb13;
+      cursor: pointer;
+      width: 80%;
+      text-align: center;
+      padding: 10px 15px;
+      margin: 10px auto;
+      border-radius: 20px;
+      background-color: #ffffff;
+      border: 1px solid #3bcb13;
+      transition: background-color 0.2s;
+    }
+
+    .contact:hover {
+      background-color: #e9e9e9;
+    }
+
+    .active-contact {
+      background-color: #d1d1d1;
+    }
+
+    .image-preview {
+      max-width: 200px;
+      max-height: 200px;
+      margin-top: 5px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-2 sidebar p-0">
+      <div class="chat-header d-flex justify-content-between align-items-center">
+        <strong>Chats</strong>
+        <div class="dropdown">
+          <button
+            class="btn btn-light dropdown-toggle"
+            type="button"
+            id="settingsDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            ⚙️
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+            <li><a class="dropdown-item" href="#" onclick="editProfile()">Editare profil</a></li>
+            <li><a class="dropdown-item" href="#" onclick="logout()">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="contacts" id="contactList">
+        <!-- Contacts will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="col-md-10 d-flex flex-column p-0">
+      <div class="chat-header d-flex align-items-center" id="chatHeader">
+        <strong>Select a contact</strong>
+      </div>
+      <div class="chat-body p-3" id="chatBody">
+        <!-- Messages will go here -->
+      </div>
+      <div class="chat-footer d-flex align-items-center gap-2">
+        <input type="file" id="imageInput" accept="image/png, image/jpeg" class="form-control w-auto" />
+        <input type="text" class="form-control me-2" placeholder="Type a message" id="messageInput" />
+        <button class="btn btn-success" id="sendBtn" disabled>Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Main logic -->
+<script type="module" src="script.js"></script>
+
+<!-- Inline script -->
+<script>
+  function editProfile() {
+    window.location.href = 'editareprofil.html';
+  }
+
+  function logout() {
+    window.location.href = 'index.html';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const profile = JSON.parse(localStorage.getItem('profile')) || {};
+
+    if (profile.bgColor) {
+      document.body.style.backgroundColor = profile.bgColor;
+    }
+    if (profile.font) {
+      document.body.style.fontFamily = profile.font;
+    }
+    if (profile.fontSize) {
+      document.body.style.fontSize = profile.fontSize + 'px';
+    }
+
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // Enable/disable Send button
+    messageInput.addEventListener("input", () => {
+      sendBtn.disabled = messageInput.value.trim() === "";
+    });
+  });
+</script>
+
+</body>
+</html>
